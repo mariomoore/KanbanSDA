@@ -27,7 +27,11 @@ namespace KanbanSDA.DAL
 
             modelBuilder.Entity<Project>()
                         .HasOptional(b => b.Board)
-                        .WithRequired(p => p.Project);
+                        .WithRequired(p => p.Project)
+                        .WillCascadeOnDelete(true);
+
+            //modelBuilder.Entity<Board>()
+            //            .HasOptional(p => p.Project);
 
             modelBuilder.Entity<Column>()
                         .HasRequired<Board>(b => b.Board)

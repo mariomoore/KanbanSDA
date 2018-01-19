@@ -1,0 +1,43 @@
+﻿@model KanbanSDA.ViewModels.BoardViewModel
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>Show</h2>
+
+<div>
+    <hr />
+    <table class="table">
+        <tr>
+            @foreach(var col in Model.ColumnsList)
+            {
+                <th>
+                    @Html.DisplayFor(modelItem => col.Name)
+                </th>
+            }
+        </tr>
+        <tr>
+            @foreach(var col in Model.ColumnsList)
+            {
+                <td>
+                    @foreach (var iss in Model.IssuesList)
+                    {
+                        if(iss.ColumnId==col.Id)
+                        {
+                            <div>
+                                <h4>
+                                    @Html.DisplayFor(modelItem => iss.Name)
+                                </h4>
+                                <p>
+                                    @Html.DisplayFor(modelItem => iss.Description)
+                                </p>
+                            </div>  
+                        }
+                    }       
+                </td>
+            }
+        </tr>
+    </table>
+</div>
+

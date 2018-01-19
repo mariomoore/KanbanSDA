@@ -54,6 +54,15 @@ namespace KanbanSDA.Controllers
             if (ModelState.IsValid)
             {
                 db.Projects.Add(project);
+
+                // Nie wiem czy ten kawałek kodu jest potrzebny
+                var board = new Board();
+                db.Boards.Add(board);
+                db.SaveChanges();
+                board = db.Boards.OrderByDescending(i => i.Id).FirstOrDefault();
+                project.BoardId = board.Id;
+                // --------------------------------------------
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
