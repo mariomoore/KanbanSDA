@@ -18,7 +18,7 @@ namespace KanbanSDA.Controllers
         // GET: Project
         public ActionResult Index()
         {
-            var projects = db.Projects.Include(p => p.Board);
+            var projects = db.Projects;
             return View(projects.ToList());
         }
 
@@ -57,10 +57,9 @@ namespace KanbanSDA.Controllers
 
                 // Nie wiem czy ten kawałek kodu jest potrzebny
                 var board = new Board();
+                board.ProjectId = project.Id;
                 db.Boards.Add(board);
-                db.SaveChanges();
-                board = db.Boards.OrderByDescending(i => i.Id).FirstOrDefault();
-                project.BoardId = board.Id;
+                
                 // --------------------------------------------
 
                 db.SaveChanges();

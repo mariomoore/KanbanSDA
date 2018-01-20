@@ -25,23 +25,48 @@ namespace KanbanSDA.DAL
             base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-            modelBuilder.Entity<Project>()
-                        .HasOptional(b => b.Board)
-                        .WithRequired(p => p.Project)
-                        .WillCascadeOnDelete(true);
-
-            //modelBuilder.Entity<Board>()
-            //            .HasOptional(p => p.Project);
+            modelBuilder.Entity<Board>()
+                       .HasMany(e => e.Columns)
+                       .WithRequired(e => e.Board)
+                       .HasForeignKey<int>(e => e.BoardId)
+                       .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Column>()
-                        .HasRequired<Board>(b => b.Board)
-                        .WithMany(c => c.Columns)
-                        .HasForeignKey<int>(b => b.BoardId);
+                        .HasMany(e => e.Issues)
+                        .WithOptional(e => e.Column)
+                        .HasForeignKey<int?>(e => e.ColumnId)
+                        .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Issue>()
-                        .HasRequired<Column>(c => c.Column)
-                        .WithMany(i => i.Issues)
-                        .HasForeignKey<int>(c => c.ColumnId);
+            modelBuilder.Entity<Project>()
+                        .HasOptional(e => e.Board)
+                        .WithRequired(e => e.Project)
+                        .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Project>()
+                        .HasMany(e => e.Issues)
+                        .WithRequired(e => e.Project)
+                        .HasForeignKey<int>(e => e.ProjectId)
+                        .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Project>()
+            //            .HasOptional(b => b.Board)
+            //            .WithRequired(p => p.Project)
+            //            .WillCascadeOnDelete(true);
+
+            //modelBuilder.Entity<Project>()
+            //            .HasMany(i => i.Issues)
+            //            .WithOptional(p => p.Project)
+            //            .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Column>()
+            //            .HasRequired<Board>(b => b.Board)
+            //            .WithMany(c => c.Columns)
+            //            .HasForeignKey<int>(b => b.BoardId);
+
+            //modelBuilder.Entity<Issue>()
+            //            .HasOptional<Column>(c => c.Column)
+            //            .WithMany(i => i.Issues)
+            //            .HasForeignKey<int>(c => c.ColumnId);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace KanbanSDA.Models
     public class Board
     {
         public int Id { get; set; }
+        public int ProjectId { get; set; }
 
         public List<Column> Columns { get; set; }
         public virtual Project Project { get; set; }

@@ -15,6 +15,9 @@
             @Html.DisplayNameFor(model => model.Column.Name)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Project.Name)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
@@ -33,6 +36,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Column.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)

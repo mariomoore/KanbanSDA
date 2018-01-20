@@ -26,15 +26,17 @@ namespace KanbanSDA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Board board = db.Boards.Find(id);
-            if (board == null)
-            {
-                return HttpNotFound();
-            }
+            //Project project = db.Projects.Find(id);
+            //if (project == null)
+            //{
+            //    return HttpNotFound();
+            //}
+
             BoardViewModel bvm = new BoardViewModel();
-            bvm.Board = board;
-            bvm.ColumnsList = GetColumnsListWithBoardId(id.GetValueOrDefault());
-            bvm.IssuesList = GetAllIssues(); // Do zmiany na GetIssuesWithBoardId
+            //bvm.Project = project;
+            bvm.Board = db.Boards.Where(b => b.ProjectId == id).FirstOrDefault();
+            bvm.ColumnsList = GetColumnsListWithBoardId(bvm.Board.Id);
+            bvm.IssuesList = GetIssuesWithProjectId(id.GetValueOrDefault()); // Do zmiany na GetIssuesWithBoardId
 
             return View(bvm);
         }
@@ -46,15 +48,16 @@ namespace KanbanSDA.Controllers
         }
 
         // Do zmiany na GetIssuesWithBoardId
-        private List<Issue> GetAllIssues()
+        //private List<Issue> GetAllIssues()
+        //{
+        //    var issues = db.Issues.Select(i => i).ToList();
+        //    return issues;
+        //}
+
+        private List<Issue> GetIssuesWithProjectId(int id)
         {
-            var issues = db.Issues.Select(i => i).ToList();
+            var issues = db.Issues.Where(p => p.ProjectId == id).ToList();
             return issues;
         }
-
-        //private List<Issue> GetIssuesWithBoardId(int id)
-        //{
-            
-        //}
     }
 }

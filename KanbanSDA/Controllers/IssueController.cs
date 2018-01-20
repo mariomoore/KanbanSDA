@@ -18,7 +18,7 @@ namespace KanbanSDA.Controllers
         // GET: Issue
         public ActionResult Index()
         {
-            var issues = db.Issues.Include(i => i.Column);
+            var issues = db.Issues.Include(i => i.Column).Include(i => i.Project);
             return View(issues.ToList());
         }
 
@@ -41,15 +41,16 @@ namespace KanbanSDA.Controllers
         public ActionResult Create()
         {
             ViewBag.ColumnId = new SelectList(db.Columns, "Id", "Name");
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
             return View();
         }
 
         // POST: Issue/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,ColumnId,CreatedDate,UpdatedDate")] Issue issue)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,CreatedDate,UpdatedDate")] Issue issue)
         {
             if (ModelState.IsValid)
             {
@@ -59,6 +60,7 @@ namespace KanbanSDA.Controllers
             }
 
             ViewBag.ColumnId = new SelectList(db.Columns, "Id", "Name", issue.ColumnId);
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", issue.ProjectId);
             return View(issue);
         }
 
@@ -75,15 +77,16 @@ namespace KanbanSDA.Controllers
                 return HttpNotFound();
             }
             ViewBag.ColumnId = new SelectList(db.Columns, "Id", "Name", issue.ColumnId);
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", issue.ProjectId);
             return View(issue);
         }
 
         // POST: Issue/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,ColumnId,CreatedDate,UpdatedDate")] Issue issue)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,CreatedDate,UpdatedDate")] Issue issue)
         {
             if (ModelState.IsValid)
             {
@@ -92,6 +95,7 @@ namespace KanbanSDA.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.ColumnId = new SelectList(db.Columns, "Id", "Name", issue.ColumnId);
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", issue.ProjectId);
             return View(issue);
         }
 
