@@ -29,7 +29,8 @@ namespace KanbanSDA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Issue issue = db.Issues.Find(id);
+            //Issue issue = db.Issues.Find(id);
+            Issue issue = db.Issues.Where(i => i.Id==id).Include(i => i.Project).FirstOrDefault();
             if (issue == null)
             {
                 return HttpNotFound();
@@ -52,11 +53,10 @@ namespace KanbanSDA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,CreatedDate,UpdatedDate")] Issue issue)
         {
-            issue.CreatedDate = DateTime.UtcNow;
-            issue.UpdatedDate = DateTime.UtcNow;
-
             if (ModelState.IsValid)
             {
+                issue.CreatedDate = DateTime.UtcNow;
+                issue.UpdatedDate = DateTime.UtcNow;
                 db.Issues.Add(issue);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -93,6 +93,11 @@ namespace KanbanSDA.Controllers
         {
             if (ModelState.IsValid)
             {
+                var projectId = db.Issues.Where(i => i.Id == issue.Id).Select(i => i.ProjectId).FirstOrDefault();
+                if(issue.ProjectId != projectId)
+                {
+                    issue.ColumnId = null;
+                }
                 issue.UpdatedDate = DateTime.UtcNow;
                 db.Entry(issue).State = EntityState.Modified;
                 db.SaveChanges();
@@ -110,7 +115,7 @@ namespace KanbanSDA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Issue issue = db.Issues.Find(id);
+            Issue issue = db.Issues.Where(i => i.Id == id).Include(i => i.Project).FirstOrDefault();
             if (issue == null)
             {
                 return HttpNotFound();

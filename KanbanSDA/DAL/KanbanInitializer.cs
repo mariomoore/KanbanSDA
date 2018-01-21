@@ -38,12 +38,12 @@ namespace KanbanSDA.DAL
 
             var columns = new List<Column>
             {
-                new Column{Id=1, Name="TO DO", BoardId=1},
-                new Column{Id=2, Name="IN PROGRESS", BoardId=1},
-                new Column{Id=3, Name="DONE", BoardId=1},
-                new Column{Id=4, Name="TO DO", BoardId=2},
-                new Column{Id=5, Name="IN PROGRESS", BoardId=2},
-                new Column{Id=6, Name="DONE", BoardId=2}
+                new Column{Id=1, Name="TO DO", BoardId=1, Order=1},
+                new Column{Id=2, Name="IN PROGRESS", BoardId=1, Order=2},
+                new Column{Id=3, Name="DONE", BoardId=1, Order=3},
+                new Column{Id=4, Name="TO DO", BoardId=2, Order=1},
+                new Column{Id=5, Name="IN PROGRESS", BoardId=2, Order=2},
+                new Column{Id=6, Name="DONE", BoardId=2, Order=3}
             };
             columns.ForEach(c => context.Columns.Add(c));
             context.SaveChanges();

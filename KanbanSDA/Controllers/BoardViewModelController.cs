@@ -16,10 +16,10 @@ namespace KanbanSDA.Controllers
         private KanbanContext db = new KanbanContext();
 
         // GET: BoardViewModel
-        public ActionResult Index()
-        {
-            return View();
-        }
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
 
         public ActionResult Show(int? id)
         {
@@ -27,38 +27,34 @@ namespace KanbanSDA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //Project project = db.Projects.Find(id);
-            //if (project == null)
-            //{
-            //    return HttpNotFound();
-            //}
 
             BoardViewModel bvm = new BoardViewModel();
             //bvm.Project = project;
             bvm.Board = db.Boards.Where(b => b.ProjectId == id).FirstOrDefault();
-            bvm.ColumnsList = GetColumnsListWithBoardId(bvm.Board.Id);
-            bvm.IssuesList = GetIssuesWithProjectId(id.GetValueOrDefault()); // Do zmiany na GetIssuesWithBoardId
+            bvm.ColumnsList = db.Columns.Where(c => c.BoardId == id).ToList();
+            bvm.IssuesList = db.Issues.Where(p => p.ProjectId == id).ToList();
+            //bvm.ColumnsList = GetColumnsListWithBoardId(bvm.Board.Id);
+            //bvm.IssuesList = GetIssuesWithProjectId(id.GetValueOrDefault());
 
             return View(bvm);
         }
 
-        private List<Column> GetColumnsListWithBoardId(int id)
-        {
-            var columns = db.Columns.Where(c => c.BoardId == id).ToList();
-            return columns;
-        }
+        //private List<Column> GetColumnsListWithBoardId(int id)
+        //{
+        //    var columns = db.Columns.Where(c => c.BoardId == id).ToList();
+        //    return columns;
+        //}
 
-        // Do zmiany na GetIssuesWithBoardId
+        //private List<Issue> GetIssuesWithProjectId(int id)
+        //{
+        //    var issues = db.Issues.Where(p => p.ProjectId == id).ToList();
+        //    return issues;
+        //}
+
         //private List<Issue> GetAllIssues()
         //{
         //    var issues = db.Issues.Select(i => i).ToList();
         //    return issues;
         //}
-
-        private List<Issue> GetIssuesWithProjectId(int id)
-        {
-            var issues = db.Issues.Where(p => p.ProjectId == id).ToList();
-            return issues;
-        }
     }
 }

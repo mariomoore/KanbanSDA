@@ -40,7 +40,7 @@ namespace KanbanSDA.DAL
             modelBuilder.Entity<Project>()
                         .HasOptional(e => e.Board)
                         .WithRequired(e => e.Project)
-                        .WillCascadeOnDelete(false);
+                        .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Project>()
                         .HasMany(e => e.Issues)

@@ -10,10 +10,8 @@ namespace KanbanSDA.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        
-        //public int? BoardId { get; set; }
 
         public virtual Board Board { get; set; }
-        public virtual List<Issue> Issues { get; set; }
+        public List<Issue> Issues { get; set; }
     }
 }
