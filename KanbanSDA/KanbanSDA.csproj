@@ -125,6 +125,7 @@
     <Compile Include="Controllers\BoardViewModelController.cs" />
     <Compile Include="Controllers\ColumnController.cs" />
     <Compile Include="Controllers\IssueController.cs" />
+    <Compile Include="Controllers\IssueViewModelController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="DAL\KanbanInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -166,6 +167,7 @@
     <Content Include="Views\Issue\Details.cshtml" />
     <Content Include="Views\Issue\Edit.cshtml" />
     <Content Include="Views\Issue\Index.cshtml" />
+    <Content Include="Views\IssueViewModel\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

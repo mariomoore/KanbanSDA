@@ -68,5 +68,7 @@ namespace KanbanSDA.DAL
             //            .WithMany(i => i.Issues)
             //            .HasForeignKey<int>(c => c.ColumnId);
         }
+
+        public System.Data.Entity.DbSet<KanbanSDA.ViewModels.IssueViewModel> IssueViewModels { get; set; }
     }
 }
