@@ -54,19 +54,16 @@ namespace KanbanSDA.Controllers
             if (ModelState.IsValid)
             {
                 db.Projects.Add(project);
-
-                // Nie wiem czy ten kawałek kodu jest potrzebny
                 var board = new Board();
                 board.ProjectId = project.Id;
                 db.Boards.Add(board);
-                
-                // --------------------------------------------
-
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
             ViewBag.Id = new SelectList(db.Boards, "Id", "Id", project.Id);
+
             return View(project);
         }
 

@@ -52,6 +52,9 @@ namespace KanbanSDA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,CreatedDate,UpdatedDate")] Issue issue)
         {
+            issue.CreatedDate = DateTime.UtcNow;
+            issue.UpdatedDate = DateTime.UtcNow;
+
             if (ModelState.IsValid)
             {
                 db.Issues.Add(issue);
@@ -90,6 +93,7 @@ namespace KanbanSDA.Controllers
         {
             if (ModelState.IsValid)
             {
+                issue.UpdatedDate = DateTime.UtcNow;
                 db.Entry(issue).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
