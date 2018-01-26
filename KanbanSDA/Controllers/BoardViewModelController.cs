@@ -15,12 +15,6 @@ namespace KanbanSDA.Controllers
     {
         private KanbanContext db = new KanbanContext();
 
-        // GET: BoardViewModel
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public ActionResult Show(int? id)
         {
             if (id == null)
@@ -30,30 +24,31 @@ namespace KanbanSDA.Controllers
 
             BoardViewModel bvm = new BoardViewModel();
             bvm.Board = db.Boards.Where(b => b.ProjectId == id).FirstOrDefault();
-            bvm.ColumnsList = db.Columns.Where(c => c.BoardId == id).ToList();
+            bvm.ColumnsList = db.Columns.Where(c => c.Board.ProjectId == id).ToList();
             bvm.IssuesList = db.Issues.Where(p => p.ProjectId == id).ToList();
-            //bvm.ColumnsList = GetColumnsListWithBoardId(bvm.Board.Id);
-            //bvm.IssuesList = GetIssuesWithProjectId(id.GetValueOrDefault());
 
             return View(bvm);
         }
 
-            //private List<Column> GetColumnsListWithBoardId(int id)
-            //{
-            //    var columns = db.Columns.Where(c => c.BoardId == id).ToList();
-            //    return columns;
-            //}
+        public ActionResult SendToBacklog(int? issueId)
+        {
+            if (issueId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-            //private List<Issue> GetIssuesWithProjectId(int id)
-            //{
-            //    var issues = db.Issues.Where(p => p.ProjectId == id).ToList();
-            //    return issues;
-            //}
+            Issue issue = db.Issues.Find(issueId);
+            if (issue == null)
+            {
+                return HttpNotFound();
+            }
+            issue.ColumnId = null;
+            issue.UpdatedDate = DateTime.UtcNow;
+            db.Entry(issue).State = EntityState.Modified;
+            db.SaveChanges();
 
-            //private List<Issue> GetAllIssues()
-            //{
-            //    var issues = db.Issues.Select(i => i).ToList();
-            //    return issues;
-            //}
+            return RedirectToAction("Show", new { id = issue.ProjectId });
         }
+
+    }
 }

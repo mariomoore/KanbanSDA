@@ -40,7 +40,7 @@ namespace KanbanSDA.Controllers
         // GET: Project/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.Boards, "Id", "Id");
+            //ViewBag.Id = new SelectList(db.Boards, "Id", "Id");
             return View();
         }
 
@@ -49,7 +49,7 @@ namespace KanbanSDA.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,BoardId")] Project project)
+        public ActionResult Create([Bind(Include = "Id,Name,Description")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace KanbanSDA.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(db.Boards, "Id", "Id", project.Id);
+            //ViewBag.Id = new SelectList(db.Boards, "Id", "Id", project.Id);
 
             return View(project);
         }
@@ -79,7 +79,7 @@ namespace KanbanSDA.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(db.Boards, "Id", "Id", project.Id);
+            //ViewBag.Id = new SelectList(db.Boards, "Id", "Id", project.Id);
             return View(project);
         }
 
@@ -88,7 +88,7 @@ namespace KanbanSDA.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,BoardId")] Project project)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace KanbanSDA.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id = new SelectList(db.Boards, "Id", "Id", project.Id);
+            //ViewBag.Id = new SelectList(db.Boards, "Id", "Id", project.Id);
             return View(project);
         }
 

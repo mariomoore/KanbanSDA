@@ -12,6 +12,6 @@ namespace KanbanSDA.Models
         public string Description { get; set; }
 
         public virtual Board Board { get; set; }
-        public List<Issue> Issues { get; set; }
+        public virtual List<Issue> Issues { get; set; }
     }
 }

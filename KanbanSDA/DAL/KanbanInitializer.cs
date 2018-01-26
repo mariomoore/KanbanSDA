@@ -38,24 +38,24 @@ namespace KanbanSDA.DAL
 
             var columns = new List<Column>
             {
-                new Column{Id=1, Name="TO DO", BoardId=1, Order=1},
-                new Column{Id=2, Name="IN PROGRESS", BoardId=1, Order=2},
-                new Column{Id=3, Name="DONE", BoardId=1, Order=3},
-                new Column{Id=4, Name="TO DO", BoardId=2, Order=1},
-                new Column{Id=5, Name="IN PROGRESS", BoardId=2, Order=2},
-                new Column{Id=6, Name="DONE", BoardId=2, Order=3}
+                new Column{Id=1, Name="TO DO/P1", BoardId=1, Order=1},
+                new Column{Id=2, Name="IN PROGRESS/P1", BoardId=1, Order=2},
+                new Column{Id=3, Name="DONE/P1", BoardId=1, Order=3},
+                new Column{Id=4, Name="TO DO/P2", BoardId=2, Order=1},
+                new Column{Id=5, Name="IN PROGRESS/P2", BoardId=2, Order=2},
+                new Column{Id=6, Name="DONE/P3", BoardId=2, Order=3}
             };
             columns.ForEach(c => context.Columns.Add(c));
             context.SaveChanges();
 
             var issues = new List<Issue>
             {
-                new Issue{Id=1, Name="Zadanie 1", Description="Opis zadania 1", ProjectId=1, ColumnId=1, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow},
-                new Issue{Id=2, Name="Zadanie 2", Description="Opis zadania 2", ProjectId=1, ColumnId=2, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow},
-                new Issue{Id=3, Name="Zadanie 3", Description="Opis zadania 3", ProjectId=1, ColumnId=3, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow},
-                new Issue{Id=4, Name="Zadanie 4", Description="Opis zadania 4", ProjectId=2, ColumnId=4, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow},
-                new Issue{Id=5, Name="Zadanie 5", Description="Opis zadania 5", ProjectId=2, ColumnId=5, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow},
-                new Issue{Id=6, Name="Zadanie 6", Description="Opis zadania 6", ProjectId=2, ColumnId=6, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow}
+                new Issue{Id=1, Name="Zadanie 1/P1", Description="Opis zadania 1", ProjectId=1, ColumnId=1, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow},
+                new Issue{Id=2, Name="Zadanie 2/P1", Description="Opis zadania 2", ProjectId=1, ColumnId=2, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow},
+                new Issue{Id=3, Name="Zadanie 3/P1", Description="Opis zadania 3", ProjectId=1, ColumnId=3, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow},
+                new Issue{Id=4, Name="Zadanie 4/P2", Description="Opis zadania 4", ProjectId=2, ColumnId=4, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow},
+                new Issue{Id=5, Name="Zadanie 5/P2", Description="Opis zadania 5", ProjectId=2, ColumnId=5, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow},
+                new Issue{Id=6, Name="Zadanie 6/P2", Description="Opis zadania 6", ProjectId=2, ColumnId=6, CreatedDate=DateTime.UtcNow, UpdatedDate=DateTime.UtcNow}
             };
             issues.ForEach(i => context.Issues.Add(i));
             context.SaveChanges();

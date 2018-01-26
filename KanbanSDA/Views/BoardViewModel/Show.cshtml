@@ -6,6 +6,10 @@
 
 <h2>Show Board</h2>
 
+<p>
+    @Html.ActionLink("Create column", "Create", "Column", new { id = Model.Board.Id}, null)
+</p>
+
 <div>
     <hr />
     <table class="table">
@@ -36,7 +40,10 @@
                                         <p>
                                             @Html.DisplayFor(modelItem => iss.Description)
                                         </p>
-                                        @Html.ActionLink("Edit", "Edit", "IssueViewModel", new { id=iss.Id }, null)
+                                        @Html.ActionLink("Edit", "Edit", "Issue", new { id = iss.Id }, null) |
+                                        @Html.ActionLink("Details", "Details", "Issue", new { id = iss.Id }, null) |
+                                        @Html.ActionLink("Delete", "Delete", "Issue", new { id = iss.Id }, null) |
+                                        @Html.ActionLink("Send to Backlog", "SendToBacklog", new { issueId = iss.Id })
                                     </div>
                                 </div>
                             }
@@ -74,9 +81,9 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", "IssueViewModel", new { id = item.Id }, null)
-                        @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |*@
+                        @Html.ActionLink("Edit", "Edit", "Issue", new { id = item.Id }, null) |
+                        @Html.ActionLink("Details", "Details", "Issue", new { id = item.Id }, null) |
+                        @Html.ActionLink("Delete", "Delete", "Issue", new { id = item.Id }, null)
                     </td>
                 </tr>
             }
