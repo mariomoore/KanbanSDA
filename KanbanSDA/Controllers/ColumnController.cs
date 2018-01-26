@@ -38,9 +38,17 @@ namespace KanbanSDA.Controllers
         }
 
         // GET: Column/Create
-        public ActionResult Create()
+        public ActionResult Create(int? boardId)
         {
-            ViewBag.BoardId = new SelectList(db.Boards, "Id", "Id");
+            if (boardId.HasValue)
+            {
+                ViewBag.BoardId = new SelectList(db.Boards.Where(b => b.Id == boardId), "Id", "Id");
+            }
+            else
+            {
+                ViewBag.BoardId = new SelectList(db.Boards, "Id", "Id");
+            }
+            
             return View();
         }
 
@@ -55,7 +63,7 @@ namespace KanbanSDA.Controllers
             {
                 db.Columns.Add(column);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Show", "BoardViewModel", new { id = column.BoardId });
             }
 
             ViewBag.BoardId = new SelectList(db.Boards, "Id", "Id", column.BoardId);
@@ -74,7 +82,7 @@ namespace KanbanSDA.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BoardId = new SelectList(db.Boards, "Id", "Id", column.BoardId);
+            ViewBag.BoardId = new SelectList(db.Boards.Where(b => b.Id == id), "Id", "Id", column.BoardId);
             return View(column);
         }
 
@@ -89,7 +97,7 @@ namespace KanbanSDA.Controllers
             {
                 db.Entry(column).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Show", "BoardViewModel", new { id = column.BoardId });
             }
             ViewBag.BoardId = new SelectList(db.Boards, "Id", "Id", column.BoardId);
             return View(column);
@@ -118,7 +126,7 @@ namespace KanbanSDA.Controllers
             Column column = db.Columns.Find(id);
             db.Columns.Remove(column);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Show", "BoardViewModel", new { id = column.BoardId });
         }
 
         protected override void Dispose(bool disposing)

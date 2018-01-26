@@ -35,7 +35,7 @@
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
             @Html.ActionLink("Details", "Details", new { id = item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-            @Html.ActionLink("Show Board", "Show", "BoardViewModel", new { id = item.Id }, null)
+            <strong>@Html.ActionLink("Show Board", "Show", "BoardViewModel", new { id = item.Id }, null)</strong>
         </td>
     </tr>
 }
