@@ -20,7 +20,6 @@ namespace KanbanSDA.DAL
         public DbSet<Board> Boards { get; set; }
         public DbSet<Column> Columns { get; set; }
         public DbSet<Issue> Issues { get; set; }
-        public DbSet<IssueViewModel> IssueViewModels { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -28,25 +27,26 @@ namespace KanbanSDA.DAL
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Entity<Project>()
-                        .HasOptional(e => e.Board)
-                        .WithRequired(e => e.Project)
+                        .HasMany(b => b.Boards)
+                        .WithRequired(p => p.Project)
+                        .HasForeignKey<int>(p => p.ProjectId)
                         .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Project>()
-                        .HasMany(e => e.Issues)
+                        .HasMany(i => i.Issues)
                         .WithOptional(p => p.Project)
                         .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Board>()
-                        .HasMany(e => e.Columns)
-                        .WithRequired(e => e.Board)
-                        .HasForeignKey<int>(e => e.BoardId)
+                        .HasMany(c => c.Columns)
+                        .WithRequired(b => b.Board)
+                        .HasForeignKey<int>(b => b.BoardId)
                         .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Column>()
-                        .HasMany(e => e.Issues)
-                        .WithOptional(e => e.Column)
-                        .HasForeignKey<int?>(e => e.ColumnId)
+                        .HasMany(i => i.Issues)
+                        .WithOptional(c => c.Column)
+                        .HasForeignKey<int?>(c => c.ColumnId)
                         .WillCascadeOnDelete(false);
         }
     }

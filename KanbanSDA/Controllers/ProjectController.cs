@@ -54,6 +54,7 @@ namespace KanbanSDA.Controllers
             if (ModelState.IsValid)
             {
                 db.Projects.Add(project);
+                db.SaveChanges();
                 var board = new Board();
                 board.ProjectId = project.Id;
                 db.Boards.Add(board);
