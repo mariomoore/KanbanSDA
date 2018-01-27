@@ -123,6 +123,12 @@ namespace KanbanSDA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var issues = db.Issues.Where(c => c.ColumnId == id);
+            foreach (Issue iss in issues)
+            {
+                iss.ColumnId = null;
+            }
+            db.SaveChanges();
             Column column = db.Columns.Find(id);
             db.Columns.Remove(column);
             db.SaveChanges();

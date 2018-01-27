@@ -8,7 +8,8 @@
 @Html.DisplayFor(m => m.BoardsList.FirstOrDefault().Project.Name)</h2>
 
 <p>
-    @Html.ActionLink("Add Column", "Create", "Column", new { boardId = Model.BoardsList.FirstOrDefault().Id}, null)
+    @Html.ActionLink("Add Column", "Create", "Column", new { boardId = Model.BoardsList.FirstOrDefault().Id}, null) |
+    @Html.ActionLink("Add Issue", "CreateOnBoard", "Issue", new { boardId = Model.BoardsList.FirstOrDefault().Id }, null)
 </p>
 
 <div>

@@ -38,11 +38,27 @@ namespace KanbanSDA.Controllers
         }
 
         // GET: Issue/Create
-        public ActionResult Create()
+        public ActionResult Create(int? projectId)
         {
-            ViewBag.ColumnId = new SelectList(db.Columns, "Id", "Name");
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
+            if (projectId.HasValue)
+            {
+                ViewBag.ProjectId = new SelectList(db.Projects.Where(p => p.Id==projectId), "Id", "Name");
+            }
+            else
+            {
+                ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
+            }
+            //ViewBag.ColumnId = new SelectList(db.Columns, "Id", "Name");
+            
             return View();
+        }
+
+        public ActionResult CreateOnBoard(int? boardId)
+        {
+            var board = db.Boards.Find(boardId);
+            var project = db.Projects.Where(p => p.Id == board.ProjectId).FirstOrDefault();
+
+            return RedirectToAction("Create", new { projectId = project.Id });
         }
 
         // POST: Issue/Create
