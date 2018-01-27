@@ -5,10 +5,10 @@
 }
 
 <h2>Board: 
-@Html.DisplayFor(m => m.Board.Project.Name)</h2>
+@Html.DisplayFor(m => m.BoardsList.FirstOrDefault().Project.Name)</h2>
 
 <p>
-    @Html.ActionLink("Add Column", "Create", "Column", new { boardId = Model.Board.Id}, null)
+    @Html.ActionLink("Add Column", "Create", "Column", new { boardId = Model.BoardsList.FirstOrDefault().Id}, null)
 </p>
 
 <div>
@@ -17,7 +17,7 @@
         <tr>
             @foreach (var col in Model.ColumnsList)
         {
-            <th>
+            <th class="text-center">
                 @Html.DisplayFor(modelItem => col.Name)
             </th>
     }

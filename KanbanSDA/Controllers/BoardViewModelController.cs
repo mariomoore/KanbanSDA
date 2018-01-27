@@ -23,7 +23,7 @@ namespace KanbanSDA.Controllers
             }
 
             BoardViewModel bvm = new BoardViewModel();
-            bvm.Board = db.Boards.Where(b => b.ProjectId == id).FirstOrDefault();
+            bvm.BoardsList = db.Boards.Where(b => b.ProjectId == id).ToList();
             bvm.ColumnsList = db.Columns.Where(c => c.Board.ProjectId == id).ToList();
             bvm.IssuesList = db.Issues.Where(p => p.ProjectId == id).ToList();
 
