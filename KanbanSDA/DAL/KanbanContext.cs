@@ -20,6 +20,9 @@ namespace KanbanSDA.DAL
         public DbSet<Board> Boards { get; set; }
         public DbSet<Column> Columns { get; set; }
         public DbSet<Issue> Issues { get; set; }
+        
+        // Czy potrzebne?
+        //public System.Data.Entity.DbSet<KanbanSDA.ViewModels.IssueViewModel> IssueViewModels { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

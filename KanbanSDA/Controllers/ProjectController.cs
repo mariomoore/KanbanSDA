@@ -40,7 +40,6 @@ namespace KanbanSDA.Controllers
         // GET: Project/Create
         public ActionResult Create()
         {
-            //ViewBag.Id = new SelectList(db.Boards, "Id", "Id");
             return View();
         }
 
@@ -63,8 +62,6 @@ namespace KanbanSDA.Controllers
                 return RedirectToAction("Index");
             }
 
-            //ViewBag.Id = new SelectList(db.Boards, "Id", "Id", project.Id);
-
             return View(project);
         }
 
@@ -80,7 +77,7 @@ namespace KanbanSDA.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.Id = new SelectList(db.Boards, "Id", "Id", project.Id);
+
             return View(project);
         }
 
@@ -97,7 +94,7 @@ namespace KanbanSDA.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //ViewBag.Id = new SelectList(db.Boards, "Id", "Id", project.Id);
+            
             return View(project);
         }
 

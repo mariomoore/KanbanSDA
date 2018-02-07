@@ -1,22 +1,25 @@
-﻿using System;
+﻿using KanbanSDA.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
-namespace KanbanSDA.Models
+namespace KanbanSDA.ViewModels
 {
-    public class Issue
+    public class IssueViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         [DisplayName("Project")]
-        public int? ProjectId { get; set; }
+        public Nullable<int> ProjectId { get; set; }
+        public string ProjectName { get; set; }
+        public List<SelectListItem> ProjectsList;
         [DisplayName("Column")]
-        public int? ColumnId { get; set; }
+        public Nullable<int> ColumnId { get; set; }
+        public List<SelectListItem> ColumnsList;
         //public int Position { get; set; }
         [DisplayName("Created date")]
         public DateTime CreatedDate { get; set; }

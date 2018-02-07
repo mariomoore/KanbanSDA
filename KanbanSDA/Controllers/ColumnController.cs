@@ -42,14 +42,15 @@ namespace KanbanSDA.Controllers
         {
             if (boardId.HasValue)
             {
-                ViewBag.BoardId = new SelectList(db.Boards.Where(b => b.Id == boardId), "Id", "Id");
+                Column column = new Column();
+                column.BoardId = boardId.GetValueOrDefault();
+                
+                return View(column);
             }
             else
             {
-                ViewBag.BoardId = new SelectList(db.Boards, "Id", "Id");
+                return View();
             }
-            
-            return View();
         }
 
         // POST: Column/Create
@@ -66,7 +67,6 @@ namespace KanbanSDA.Controllers
                 return RedirectToAction("Show", "BoardViewModel", new { id = column.BoardId });
             }
 
-            ViewBag.BoardId = new SelectList(db.Boards, "Id", "Id", column.BoardId);
             return View(column);
         }
 
@@ -82,7 +82,7 @@ namespace KanbanSDA.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BoardId = new SelectList(db.Boards.Where(b => b.Id == id), "Id", "Id", column.BoardId);
+            
             return View(column);
         }
 
@@ -99,7 +99,7 @@ namespace KanbanSDA.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Show", "BoardViewModel", new { id = column.BoardId });
             }
-            ViewBag.BoardId = new SelectList(db.Boards, "Id", "Id", column.BoardId);
+            
             return View(column);
         }
 

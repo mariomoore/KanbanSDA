@@ -1,23 +1,19 @@
-﻿@model KanbanSDA.Models.Issue
+﻿@model KanbanSDA.ViewModels.IssueViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
 }
 
-<h2>Edit Issue</h2>
+<h2>Add Issue</h2>
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    @*<h4>Issue</h4>*@
+    <h4>@Html.DisplayFor(Model => Model.ProjectName)</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
-    @Html.HiddenFor(model => model.CreatedDate)
-
     <div class="form-group">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -35,32 +31,23 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ProjectId, "Project", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
-            <p>If you change the Project, the Issue will go to the Backlog</p>
-        </div>
-    </div>
-
-    <div class="form-group">
         @Html.LabelFor(model => model.ColumnId, "Column", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("ColumnId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.ColumnId, Model.ColumnsList, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.ColumnId, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-warning" />
+            <input type="submit" value="Create" class="btn btn-default" />
         </div>
     </div>
 </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Board", "Show", "BoardViewModel", new { id=Model.ProjectId }, null)
 </div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

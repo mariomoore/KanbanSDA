@@ -9,64 +9,64 @@
 
 <p>
     @Html.ActionLink("Add Column", "Create", "Column", new { boardId = Model.BoardsList.FirstOrDefault().Id}, null) |
-    @Html.ActionLink("Add Issue", "CreateOnBoard", "Issue", new { boardId = Model.BoardsList.FirstOrDefault().Id }, null)
+    @Html.ActionLink("Add Issue", "Create", "IssueViewModel", new { projectId = Model.BoardsList.FirstOrDefault().ProjectId }, null)
 </p>
 
 <div>
     <hr />
-    <table class="table-bordered">
-        <tr>
-            @foreach (var col in Model.ColumnsList)
+    <ul class="board-columns">
+        @foreach (var col in Model.ColumnsList)
         {
-            <th class="text-center">
-                @Html.DisplayFor(modelItem => col.Name)
-            </th>
-    }
-        </tr>
-        <tr>
-            @foreach (var col in Model.ColumnsList)
-        {
-            <td>
-                @foreach (var iss in Model.IssuesList)
-            {
-                <div class="panel-group">
-                    @if (iss.ColumnId == col.Id)
-                {
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4>
-                                @Html.DisplayFor(modelItem => iss.Name)
-                            </h4>
-                        </div>
-                        <div class="panel panel-body">
-                            <p>
-                                @Html.DisplayFor(modelItem => iss.Description)
-                            </p>
-                            @Html.ActionLink("Edit", "Edit", "Issue", new { id = iss.Id }, null) |
-                            @Html.ActionLink("Details", "Details", "Issue", new { id = iss.Id }, null) |
-                            @Html.ActionLink("Delete", "Delete", "Issue", new { id = iss.Id }, null) |
-                            @Html.ActionLink("Send to Backlog", "SendToBacklog", new { issueId = iss.Id })
-                        </div>
-                    </div>
-            }
-                </div>
+            <li class="board-column text-center">
+                <strong>@Html.DisplayFor(modelItem => col.Name)</strong>
+            </li>
         }
-            </td>
-    }
-        </tr>
-        <tr>
-            @foreach (var col in Model.ColumnsList)
+    </ul>
+
+    <ul class="board-columns">
+        @foreach (var col in Model.ColumnsList)
         {
-            <td>
+            <li class="board-column">
+                @foreach (var iss in Model.IssuesList)
+                {
+                    <div class="panel-group">
+                        @if (iss.ColumnId == col.Id)
+                        {
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>
+                                        @Html.DisplayFor(modelItem => iss.Name)
+                                    </h4>
+                                </div>
+                                <div class="panel panel-body">
+                                    <p>
+                                        @Html.DisplayFor(modelItem => iss.Description)
+                                    </p>
+                                    @Html.ActionLink("Edit", "Edit", "IssueViewModel", new { id = iss.Id }, null) |
+                                    @Html.ActionLink("Details", "Details", "IssueViewModel", new { id = iss.Id }, null) |
+                                    @Html.ActionLink("Delete", "Delete", "IssueViewModel", new { id = iss.Id }, null) |
+                                    @Html.ActionLink("Send to Backlog", "SendToBacklog", new { issueId = iss.Id })
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </li>
+        }
+    </ul>
+
+    <ul class="board-columns">
+        @foreach (var col in Model.ColumnsList)
+        {
+            <li class="board-column text-center">
                 @Html.ActionLink("Edit Column", "Edit", "Column", new { id = col.Id }, null) |
                 @Html.ActionLink("Delete Column", "Delete", "Column", new { id = col.Id }, null)
-            </td>
-    }
-        </tr>
-    </table>
+            </li>
+        }
+    </ul>
 
     <h2>Backlog</h2>
-    
+
     <table class="table">
         <tr>
             <th>
@@ -92,9 +92,9 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", "Issue", new { id = item.Id }, null) |
-                        @Html.ActionLink("Details", "Details", "Issue", new { id = item.Id }, null) |
-                        @Html.ActionLink("Delete", "Delete", "Issue", new { id = item.Id }, null)
+                        @Html.ActionLink("Edit", "Edit", "IssueViewModel", new { id = item.Id }, null) |
+                        @Html.ActionLink("Details", "Details", "IssueViewModel", new { id = item.Id }, null) |
+                        @Html.ActionLink("Delete", "Delete", "IssueViewModel", new { id = item.Id }, null)
                     </td>
                 </tr>
             }

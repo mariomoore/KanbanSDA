@@ -1,4 +1,4 @@
-﻿@model KanbanSDA.Models.Issue
+﻿@model KanbanSDA.ViewModels.IssueViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -6,13 +6,12 @@
 
 <h2>Edit Issue</h2>
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    @*<h4>Issue</h4>*@
+    @*<h4>IssueViewModel</h4>*@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
@@ -37,16 +36,16 @@
     <div class="form-group">
         @Html.LabelFor(model => model.ProjectId, "Project", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.ProjectId, Model.ProjectsList, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
             <p>If you change the Project, the Issue will go to the Backlog</p>
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ColumnId, "Column", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ColumnId, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("ColumnId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.ColumnId, Model.ColumnsList, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.ColumnId, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -59,9 +58,9 @@
 </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div>
+        @Html.ActionLink("Back to Board", "Show", "BoardViewModel", new { id = Model.ProjectId }, null)
+    </div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

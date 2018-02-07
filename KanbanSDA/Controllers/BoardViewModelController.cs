@@ -49,6 +49,5 @@ namespace KanbanSDA.Controllers
 
             return RedirectToAction("Show", new { id = issue.ProjectId });
         }
-
     }
 }

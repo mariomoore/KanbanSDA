@@ -1,0 +1,11 @@
+﻿.board-columns {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    list-style: none;
+    padding-left: 0px
+}
+
+.board-column {
+    display: table-cell;
+}
