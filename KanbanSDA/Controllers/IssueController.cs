@@ -55,8 +55,8 @@ namespace KanbanSDA.Controllers
             if (ModelState.IsValid)
             {
                 issue.Position = 0;
-                issue.CreatedDate = DateTime.UtcNow;
-                issue.UpdatedDate = DateTime.UtcNow;
+                issue.CreatedDate = DateTime.Now;
+                issue.UpdatedDate = DateTime.Now;
                 db.Issues.Add(issue);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -113,7 +113,7 @@ namespace KanbanSDA.Controllers
                     }
                 }
 
-                issue.UpdatedDate = DateTime.UtcNow;
+                issue.UpdatedDate = DateTime.Now;
                 db.Entry(issue).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

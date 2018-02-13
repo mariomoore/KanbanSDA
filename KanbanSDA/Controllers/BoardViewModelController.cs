@@ -44,7 +44,7 @@ namespace KanbanSDA.Controllers
             }
             issue.ColumnId = null;
             issue.Position = 0;
-            issue.UpdatedDate = DateTime.UtcNow;
+            issue.UpdatedDate = DateTime.Now;
             db.Entry(issue).State = EntityState.Modified;
             db.SaveChanges();
 
