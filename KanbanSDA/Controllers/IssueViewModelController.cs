@@ -68,16 +68,18 @@ namespace KanbanSDA.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,CreatedDate,UpdatedDate")] IssueViewModel issueViewModel)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,Position,CreatedDate,UpdatedDate")] IssueViewModel issueViewModel)
         {
             if (ModelState.IsValid)
             {
+
                 Issue issue = new Issue();
                 issue.Id = issueViewModel.Id;
                 issue.Name = issueViewModel.Name;
                 issue.Description = issueViewModel.Description;
                 issue.ProjectId = issueViewModel.ProjectId;
                 issue.ColumnId = issueViewModel.ColumnId;
+                issue.Position = db.Issues.Where(c => c.ColumnId == issue.ColumnId).Count() + 1;
                 issue.CreatedDate = DateTime.UtcNow;
                 issue.UpdatedDate = DateTime.UtcNow;
                 db.Issues.Add(issue);
@@ -126,6 +128,7 @@ namespace KanbanSDA.Controllers
             issueViewModel.ProjectsList = projectsToSelectList;
             issueViewModel.ColumnId = issue.ColumnId;
             issueViewModel.ColumnsList = columnsToSelectList;
+            issueViewModel.Position = issue.Position;
             issueViewModel.CreatedDate = issue.CreatedDate;
             issueViewModel.UpdatedDate = issue.UpdatedDate;
 
@@ -137,32 +140,50 @@ namespace KanbanSDA.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,CreatedDate,UpdatedDate")] IssueViewModel issueViewModel)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,Position,CreatedDate,UpdatedDate")] IssueViewModel issueViewModel)
         {
             if (ModelState.IsValid)
             {
                 Issue issue = new Issue();
 
-                var oldIssuesProjectId = db.Issues.Where(p => p.Id == issueViewModel.Id).Select(p => p.ProjectId).FirstOrDefault();
-                if (issueViewModel.ProjectId != oldIssuesProjectId)
+                var oldIssue = db.Issues.Where(p => p.Id == issueViewModel.Id).AsNoTracking().FirstOrDefault();
+                if (issueViewModel.ProjectId != oldIssue.ProjectId)
                 {
                     issue.ColumnId = null;
+                    // trzeba przenumerować pozycje
                 }
                 else
                 {
                     issue.ColumnId = issueViewModel.ColumnId;
                 }
 
+                if (issueViewModel.ColumnId != oldIssue.ColumnId)
+                {
+                    if (issueViewModel.ColumnId == null)
+                    {
+                        issueViewModel.Position = 0;
+                    }
+                    else
+                    {
+                        var issuesQuantity = db.Issues.Where(c => c.ColumnId == issueViewModel.ColumnId).Count();
+                        issueViewModel.Position = issuesQuantity + 1;
+                    }
+                    // trzeba przenumerować pozycje
+                }
+
                 issue.Id = issueViewModel.Id;
                 issue.Name = issueViewModel.Name;
                 issue.Description = issueViewModel.Description;
                 issue.ProjectId = issueViewModel.ProjectId;
+                issue.Position = issueViewModel.Position;
                 issue.CreatedDate = issueViewModel.CreatedDate;
                 issue.UpdatedDate = DateTime.UtcNow;
                 db.Entry(issue).State = EntityState.Modified;
                 db.SaveChanges();
 
-                if(issue.ProjectId == null)
+                ResetIssuesPosition(oldIssue.ColumnId.GetValueOrDefault());
+
+                if (issue.ProjectId == null)
                 {
                     return RedirectToAction("Index", "Issue");
                 }
@@ -209,6 +230,19 @@ namespace KanbanSDA.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void ResetIssuesPosition(int columnId)
+        {
+            var issues = db.Issues.Where(c => c.ColumnId == columnId).ToList();
+            int position = 1;
+            foreach (Issue iss in issues)
+            {
+                iss.Position = position;
+                db.Entry(iss).State = EntityState.Modified;
+                position++;
+            }
+            db.SaveChanges();
         }
     }
 }

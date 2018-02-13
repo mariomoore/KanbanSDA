@@ -17,7 +17,7 @@ namespace KanbanSDA.Models
         public int? ProjectId { get; set; }
         [DisplayName("Column")]
         public int? ColumnId { get; set; }
-        //public int Position { get; set; }
+        public int Position { get; set; }
         [DisplayName("Created date")]
         public DateTime CreatedDate { get; set; }
         [DisplayName("Updated date")]

@@ -1,11 +1,25 @@
-﻿.board-columns {
+﻿ul {
+    list-style-type: none;
+}
+
+.board-columns {
     display: table;
     width: 100%;
     table-layout: fixed;
-    list-style: none;
-    padding-left: 0px
+    list-style-type: none;
+    padding-left: 0;
 }
 
 .board-column {
     display: table-cell;
+}
+
+.sortable-column {
+    list-style-type: none;
+    margin: 0;
+    float: left;
+    margin-right: 10px;
+    background: #eee;
+    padding: 5px;
+    width: 100%;
 }

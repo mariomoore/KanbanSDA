@@ -50,10 +50,11 @@ namespace KanbanSDA.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,CreatedDate,UpdatedDate")] Issue issue)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,Position,CreatedDate,UpdatedDate")] Issue issue)
         {
             if (ModelState.IsValid)
             {
+                issue.Position = 0;
                 issue.CreatedDate = DateTime.UtcNow;
                 issue.UpdatedDate = DateTime.UtcNow;
                 db.Issues.Add(issue);
@@ -89,15 +90,29 @@ namespace KanbanSDA.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,CreatedDate,UpdatedDate")] Issue issue)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,ProjectId,ColumnId,Position,CreatedDate,UpdatedDate")] Issue issue)
         {
             if (ModelState.IsValid)
             {
-                var oldIssuesProjectId = db.Issues.Where(p => p.Id == issue.Id).Select(p => p.ProjectId).FirstOrDefault();
-                if (issue.ProjectId != oldIssuesProjectId)
+                var oldIssue = db.Issues.Where(p => p.Id == issue.Id).AsNoTracking().FirstOrDefault();
+                if (issue.ProjectId != oldIssue.ProjectId)
                 {
                     issue.ColumnId = null;
                 }
+
+                if (issue.ColumnId != oldIssue.ColumnId)
+                {
+                    if (issue.ColumnId == null) // ten warunek nigdy się nie spełni
+                    {
+                        issue.Position = 0;
+                    }
+                    else
+                    {
+                        var issuesQuantity = db.Issues.Where(c => c.ColumnId == issue.ColumnId).Count();
+                        issue.Position = issuesQuantity + 1;
+                    }
+                }
+
                 issue.UpdatedDate = DateTime.UtcNow;
                 db.Entry(issue).State = EntityState.Modified;
                 db.SaveChanges();

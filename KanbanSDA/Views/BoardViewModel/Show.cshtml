@@ -27,30 +27,36 @@
         @foreach (var col in Model.ColumnsList)
         {
             <li class="board-column">
-                @foreach (var iss in Model.IssuesList)
-                {
-                    <div class="panel-group">
-                        @if (iss.ColumnId == col.Id)
-                        {
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4>
-                                        @Html.DisplayFor(modelItem => iss.Name)
-                                    </h4>
-                                </div>
-                                <div class="panel panel-body">
-                                    <p>
-                                        @Html.DisplayFor(modelItem => iss.Description)
-                                    </p>
-                                    @Html.ActionLink("Edit", "Edit", "IssueViewModel", new { id = iss.Id }, null) |
-                                    @Html.ActionLink("Details", "Details", "IssueViewModel", new { id = iss.Id }, null) |
-                                    @Html.ActionLink("Delete", "Delete", "IssueViewModel", new { id = iss.Id }, null) |
-                                    @Html.ActionLink("Send to Backlog", "SendToBacklog", new { issueId = iss.Id })
-                                </div>
-                            </div>
-                        }
-                    </div>
-                }
+                <ul class="sortable-column" style="list-style-type:none; border:2px solid #eee; padding:5px;">
+                    @foreach (var iss in Model.IssuesList)
+                    {
+                           if (iss.ColumnId == col.Id)
+                            {
+                                <li>
+                                    <div class="panel panel-default" style="margin-bottom:0px">
+                                        <div class="panel-heading">
+                                            <h4>
+                                                @Html.DisplayFor(modelItem => iss.Name)
+                                            </h4>
+                                        </div>
+                                        <div class="panel panel-body" style="margin-bottom:0px">
+                                            <p>
+                                                @Html.DisplayFor(modelItem => iss.Description)
+                                            </p>
+                                        </div>
+                                        <div class="panel panel-footer" style="margin-bottom:0px">
+                                            @Html.ActionLink("Edit", "Edit", "IssueViewModel", new { id = iss.Id }, null) |
+                                            @Html.ActionLink("Details", "Details", "IssueViewModel", new { id = iss.Id }, null) |
+                                            @Html.ActionLink("Delete", "Delete", "IssueViewModel", new { id = iss.Id }, null) |
+                                            @Html.ActionLink("Send to Backlog", "SendToBacklog", new { issueId = iss.Id }) |
+                                            @Html.ActionLink(HttpUtility.HtmlDecode("&#9757;"), "SendUp", new { issueId = iss.Id })
+                                            @Html.ActionLink(HttpUtility.HtmlDecode("&#9759;"), "SendDown", new { issueId = iss.Id })
+                                        </div>
+                                    </div>
+                                </li>
+                            }    
+                    }
+                </ul>
             </li>
         }
     </ul>
@@ -101,4 +107,3 @@
         }
     </table>
 </div>
-

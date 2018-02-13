@@ -20,7 +20,7 @@ namespace KanbanSDA.ViewModels
         [DisplayName("Column")]
         public Nullable<int> ColumnId { get; set; }
         public List<SelectListItem> ColumnsList;
-        //public int Position { get; set; }
+        public int Position { get; set; }
         [DisplayName("Created date")]
         public DateTime CreatedDate { get; set; }
         [DisplayName("Updated date")]
