@@ -12,14 +12,19 @@
 
 .board-column {
     display: table-cell;
+    vertical-align: top;
+}
+
+.board-column-wBorder {
+    border: 1px solid #eee;
 }
 
 .sortable-column {
     list-style-type: none;
     margin: 0;
     float: left;
-    margin-right: 10px;
     background: #eee;
     padding: 5px;
     width: 100%;
+    border: 2px solid #fff;
 }

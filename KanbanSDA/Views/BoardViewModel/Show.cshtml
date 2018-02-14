@@ -26,14 +26,14 @@
     <ul class="board-columns">
         @foreach (var col in Model.ColumnsList)
         {
-            <li class="board-column">
-                <ul class="sortable-column" style="list-style-type:none; border:2px solid #eee; padding:5px;">
+            <li class="board-column board-column-wBorder">
+                <ul class="sortable-column">
                     @foreach (var iss in Model.IssuesList)
                     {
                            if (iss.ColumnId == col.Id)
                             {
                                 <li>
-                                    <div class="panel panel-default" style="margin-bottom:0px">
+                                    <div class="panel panel-default" style="margin-bottom:2px; margin-top:2px;">
                                         <div class="panel-heading">
                                             <h4>
                                                 @Html.DisplayFor(modelItem => iss.Name)
