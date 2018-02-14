@@ -16,26 +16,26 @@ namespace KanbanSDA.Controllers
         private KanbanContext db = new KanbanContext();
 
         // GET: Column
-        public ActionResult Index()
-        {
-            var columns = db.Columns.Include(c => c.Board);
-            return View(columns.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    var columns = db.Columns.Include(c => c.Board);
+        //    return View(columns.ToList());
+        //}
 
         // GET: Column/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Column column = db.Columns.Find(id);
-            if (column == null)
-            {
-                return HttpNotFound();
-            }
-            return View(column);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Column column = db.Columns.Find(id);
+        //    if (column == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(column);
+        //}
 
         // GET: Column/Create
         public ActionResult Create(int? boardId)
@@ -44,7 +44,10 @@ namespace KanbanSDA.Controllers
             {
                 Column column = new Column();
                 column.BoardId = boardId.GetValueOrDefault();
-                
+
+                var board = db.Boards.Find(boardId);
+                ViewBag.ProjectName = db.Projects.Find(board.ProjectId).Name;
+
                 return View(column);
             }
             else
@@ -82,6 +85,9 @@ namespace KanbanSDA.Controllers
             {
                 return HttpNotFound();
             }
+
+            var board = db.Boards.Find(column.BoardId);
+            ViewBag.ProjectName = db.Projects.Find(board.ProjectId).Name;
             
             return View(column);
         }
