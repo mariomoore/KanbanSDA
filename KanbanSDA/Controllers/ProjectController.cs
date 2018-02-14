@@ -119,8 +119,19 @@ namespace KanbanSDA.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Project project = db.Projects.Find(id);
+
+            var issues = db.Issues.Where(p => p.ProjectId == project.Id).ToList();
+            foreach (Issue iss in issues)
+            {
+                iss.ProjectId = null;
+                iss.ColumnId = null;
+                iss.Position = 0;
+                iss.UpdatedDate = DateTime.Now;
+            }
+
             db.Projects.Remove(project);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
