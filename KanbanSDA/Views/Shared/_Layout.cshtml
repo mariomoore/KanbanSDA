@@ -40,10 +40,33 @@
     <script src="~/Scripts/jquery-1.12.4.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    @*<script type="text/javascript">
-        $(function () {
-            $(".sortable-column").sortable({connectWith: ".sortable-column", dropOnEmpty: true}).disableSelection();
+    <script type="text/javascript">
+        var draggedItemId = null;
+        var targetColumn = null;
+        var targetPosition = null;
+
+        $(document).ready(function () {
+            $(function () {
+                $(".sortable-column").sortable({
+                    connectWith: ".sortable-column",
+                    stop: function (event, ui) {
+                        draggedItemId = ui.item.attr('id');
+                        var issueId = draggedItemId.substr(6);
+                        
+                        targetColumn = ui.item.parent().attr('id');
+                        var columnId = targetColumn.substr(7);
+                        
+                        targetPosition = ui.item.index();
+                        var position = targetPosition + 1;
+                        
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("SetNewPosition")?issueId=" + issueId + "&columnId=" + columnId + "&position=" + position
+                        });
+                    }
+                });
+            });
         });
-    </script>*@
+    </script>
 </body>
 </html>

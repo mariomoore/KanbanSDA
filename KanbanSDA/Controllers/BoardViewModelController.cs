@@ -102,5 +102,36 @@ namespace KanbanSDA.Controllers
 
             return RedirectToAction("Show", new { id = issue.ProjectId });
         }
+
+        [HttpPost]
+        public void SetNewPosition(int issueId, int columnId, int position)
+        {
+            Issue movedIssue = db.Issues.Find(issueId);
+            var sourceColumnId = movedIssue.ColumnId.GetValueOrDefault();
+            movedIssue.Position = position;
+            movedIssue.ColumnId = columnId;
+            db.Entry(movedIssue).State = EntityState.Modified;
+            db.SaveChanges();
+
+            BusinessLogic.BoardBL.ResetIssuesPosition(sourceColumnId);
+
+            var issues = db.Issues.Where(c => c.ColumnId == columnId).OrderBy(p => p.Position).ToList();
+            int pos = 1;
+            foreach(Issue iss in issues)
+            {
+                if (pos == position && iss.Id != movedIssue.Id)
+                {
+                    iss.Position = pos + 1;
+                    db.Entry(iss).State = EntityState.Modified;
+                }
+                else
+                {
+                    iss.Position = pos;
+                    db.Entry(iss).State = EntityState.Modified;
+                    pos++;
+                }
+            }
+            db.SaveChanges();
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using KanbanSDA.BusinessLogic;
 using KanbanSDA.DAL;
 using KanbanSDA.Models;
 using KanbanSDA.ViewModels;
@@ -15,7 +16,7 @@ namespace KanbanSDA.Controllers
     public class IssueViewModelController : Controller
     {
         private KanbanContext db = new KanbanContext();
-
+        
         // GET: IssueViewModel
         //public ActionResult Index()
         //{
@@ -181,7 +182,7 @@ namespace KanbanSDA.Controllers
                 db.Entry(issue).State = EntityState.Modified;
                 db.SaveChanges();
 
-                ResetIssuesPosition(oldIssue.ColumnId.GetValueOrDefault());
+                BusinessLogic.BoardBL.ResetIssuesPosition(oldIssue.ColumnId.GetValueOrDefault());
 
                 if (issue.ProjectId == null)
                 {
@@ -230,19 +231,6 @@ namespace KanbanSDA.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private void ResetIssuesPosition(int columnId)
-        {
-            var issues = db.Issues.Where(c => c.ColumnId == columnId).ToList();
-            int position = 1;
-            foreach (Issue iss in issues)
-            {
-                iss.Position = position;
-                db.Entry(iss).State = EntityState.Modified;
-                position++;
-            }
-            db.SaveChanges();
         }
     }
 }

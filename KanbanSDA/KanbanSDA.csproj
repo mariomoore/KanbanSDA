@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BusinessLogic\BoardBL.cs" />
     <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\BoardViewModelController.cs" />
     <Compile Include="Controllers\ColumnController.cs" />

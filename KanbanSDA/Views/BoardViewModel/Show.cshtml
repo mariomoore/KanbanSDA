@@ -27,12 +27,12 @@
         @foreach (var col in Model.ColumnsList)
         {
             <li class="board-column board-column-wBorder">
-                <ul class="sortable-column">
+                <ul class="sortable-column" id="@Html.Raw("column_" + col.Id)">
                     @foreach (var iss in Model.IssuesList)
                     {
                            if (iss.ColumnId == col.Id)
                             {
-                                <li>
+                                <li id="@Html.Raw("issue_" + iss.Id)" draggable="true">
                                     <div class="panel panel-default" style="margin-bottom:2px; margin-top:2px;">
                                         <div class="panel-heading">
                                             <h4>
